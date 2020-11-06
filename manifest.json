@@ -1,0 +1,26 @@
+{
+  "name": "EFL Championship Portal",
+  "short_name": "EFL Championship",
+  "description": "EFL Championship Information Website",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#00897B",
+  "theme_color": "#00897B",
+  "icons": [
+    {
+      "src": "/asset/logo/icon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/asset/logo/icon225.png",
+      "sizes": "225x225",
+      "type": "image/png"
+    },
+    {
+      "src": "/asset/logo/icon256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ]
+}
