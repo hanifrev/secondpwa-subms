@@ -48,7 +48,8 @@ function loadPage(page) {
       var content = document.querySelector("#body-content");
       if (this.status == 200) {
         if (page === "Home") {
-          showStanding();
+          clubInfo();
+          console.log("test from navjs");
         }
         if (page === "Standing") {
           showStanding();

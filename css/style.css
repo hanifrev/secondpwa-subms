@@ -7,6 +7,12 @@
   justify-content: center;
 }
 
+.card.horizontal .card-image {
+  max-width: 40%;
+  margin: auto;
+  padding: 0px 10px 43px 10px;
+}
+
 .about {
   text-align: center;
 }

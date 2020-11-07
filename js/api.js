@@ -42,6 +42,8 @@ const fetchAPI = (url) => {
     });
 };
 
+const ENDPOINT_TEAMS =
+  "https://api.football-data.org/v2/competitions/2016/teams";
 const ENDPOINT_STAND =
   "https://api.football-data.org/v2/competitions/2016/standings?standingType=TOTAL";
 function showStanding() {
@@ -109,6 +111,85 @@ function showStanding() {
     .catch(error);
 }
 /////////////
+function clubInfo() {
+  if ("caches" in window) {
+    caches.match(ENDPOINT_TEAMS).then(function (response) {
+      if (response) {
+        response.json().then(function (data) {
+          const info = data.teams;
+          let thehtml = "";
+          const clubCard = document.getElementById("team-info");
+          // console.log(klasemen);
+
+          info.forEach(function (clubs) {
+            const clubLogo = clubs.crestUrl.replace(/^http:\/\//i, "https://");
+            clubCard.innerHTML += `
+          
+            
+              <div class="col s12 m7">
+                
+                <div class="card horizontal">
+                  <div class="card-image">
+                    <img src="${clubLogo}">
+                  </div>
+                  <div class="card-stacked">
+                    <div class="card-content">
+                    <span class="card-title"><p>${clubs.name}</p></span>
+                      <p>Vanue: ${clubs.venue}</p>
+                      <P><a href=${clubs.website} target="_blank">${clubs.website}</a></p>
+                    </div>
+                    <div class="card-action">
+                      <a href="#">MORE INFO</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+          `;
+          });
+
+          // document.getElementById("standtable").innerHTML = thehtml;
+        });
+      }
+    });
+  }
+  fetchAPI(ENDPOINT_TEAMS)
+    // .then(status)
+    // .then(json)
+    .then(function (data) {
+      const info = data.teams;
+      let thehtml = "";
+      const clubCard = document.getElementById("team-info");
+      // console.log(klasemen);
+
+      info.forEach(function (clubs) {
+        const clubLogo = clubs.crestUrl.replace(/^http:\/\//i, "https://");
+        clubCard.innerHTML += `
+        <div class="col s12 m7">
+        
+        <div class="card horizontal">
+          <div class="card-image">
+            <img src="${clubLogo}">
+          </div>
+          <div class="card-stacked">
+            <div class="card-content">
+            <span class="card-title"><p>${clubs.name}</p></span>
+                <p>Vanue: ${clubs.venue}</p>
+                <p><a href=${clubs.website} target="_blank">${clubs.website}</a></p>
+            </div>
+            <div class="card-action">
+              <a href="#">MORE INFO</a>
+            </div>
+          </div>
+        </div>
+      </div>
+         `;
+      });
+
+      // document.getElementById("standtable").innerHTML = thehtml;
+    })
+    .catch(error);
+}
 
 function getArticleById() {
   // Ambil nilai query parameter (?id=)
