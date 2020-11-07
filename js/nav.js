@@ -54,6 +54,10 @@ function loadPage(page) {
         if (page === "Standing") {
           showStanding();
         }
+        if (page === "Favorite_Teams") {
+          console.log("test from navjs");
+        }
+
         content.innerHTML = xhttp.responseText;
       } else if (this.status == 404) {
         content.innerHTML = "<p>Halaman tidak ditemukan.</p>";

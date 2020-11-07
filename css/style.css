@@ -8,9 +8,9 @@
 }
 
 .card.horizontal .card-image {
-  max-width: 40%;
+  max-width: 30%;
   margin: auto;
-  padding: 0px 10px 43px 10px;
+  padding: 0px 10px 20px 25px;
 }
 
 .about {
@@ -75,5 +75,14 @@
   .row .col.s3 {
     width: 100%;
     /* padding: 0; */
+  }
+}
+
+@media (max-width: 450px) {
+  .card .card-title {
+    font-size: 18px;
+  }
+  .card .card-content {
+    padding: 15px 22px 1px 22px;
   }
 }

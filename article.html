@@ -2,10 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>News Reader</title>
+    <title>EFL</title>
     <meta name="description" content="My first PWA" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="css/materialize.min.css" />
+    <link rel="stylesheet" href="css/article.css" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#00897B" />
     <link
@@ -28,6 +29,8 @@
     <!-- Akhir Navigasi -->
 
     <div class="container" id="body-content"></div>
+    <div class="container" id="mid"></div>
+    <div class="container" id="show-player"></div>
     <div class="fixed-action-btn">
       <a class="btn-floating btn-large red" id="save">
         <i class="large material-icons">save</i>
@@ -44,6 +47,7 @@
     <script src="/sw.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        getArticleById();
         var item = getArticleById();
         var save = document.getElementById("save");
         save.onclick = function () {

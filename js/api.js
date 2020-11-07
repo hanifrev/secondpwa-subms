@@ -41,7 +41,7 @@ const fetchAPI = (url) => {
       console.log(error);
     });
 };
-
+const ENDPOINT_CLUBS = "http://api.football-data.org/v2/teams/";
 const ENDPOINT_TEAMS =
   "https://api.football-data.org/v2/competitions/2016/teams";
 const ENDPOINT_STAND =
@@ -135,11 +135,11 @@ function clubInfo() {
                   <div class="card-stacked">
                     <div class="card-content">
                     <span class="card-title"><p>${clubs.name}</p></span>
-                      <p>Vanue: ${clubs.venue}</p>
+                      <p>${clubs.venue}</p>
                       <P><a href=${clubs.website} target="_blank">${clubs.website}</a></p>
                     </div>
                     <div class="card-action">
-                      <a href="#">MORE INFO</a>
+                      <a href="./article.html?id=${clubs.id}">MORE INFO</a>
                     </div>
                   </div>
                 </div>
@@ -174,11 +174,11 @@ function clubInfo() {
           <div class="card-stacked">
             <div class="card-content">
             <span class="card-title"><p>${clubs.name}</p></span>
-                <p>Vanue: ${clubs.venue}</p>
+                <p>${clubs.venue}</p>
                 <p><a href=${clubs.website} target="_blank">${clubs.website}</a></p>
             </div>
             <div class="card-action">
-              <a href="#">MORE INFO</a>
+              <a href="./article.html?id=${clubs.id}">MORE INFO</a>
             </div>
           </div>
         </div>
@@ -197,47 +197,106 @@ function getArticleById() {
   var idParam = urlParams.get("id");
 
   if ("caches" in window) {
-    caches.match(base_url + "article/" + idParam).then(function (response) {
-      if (response) {
-        response.json().then(function (data) {
-          var articleHTML = `
-            <div class="card">
-              <div class="card-image waves-effect waves-block waves-light">
-                <img src="${data.result.cover}" />
+    caches
+      .match(ENDPOINT_TEAMS + "article/" + idParam)
+      .then(function (response) {
+        if (response) {
+          response.json().then(function (data) {
+            const info = data;
+            var articleHTML = "";
+            var midArtic = "";
+            var showPlayer = "";
+            // const matchresult = ENDPOINT_CLUBS + idParam + "/" + "matches";
+
+            // fetchAPI(matchresult).then(function (resultmat) {
+            //   console.log(resultmat.count);
+            // });
+            const clubLogo = info.crestUrl.replace(/^http:\/\//i, "https://");
+            articleHTML += `
+                <div class="card">
+                  <div class="card-image waves-effect waves-block waves-light">
+                    <img src="${clubLogo}" />
+                  </div>
+                  <div class="card-content">
+                    <span class="card-title">${info.name}</span>
+                    <p>${info.address}</p>
+                    <p>${info.phone}</p>
+                    <p>${info.website}</p>
+                    
+                  </div>
+                </div>
+              `;
+            midArtic += `
+                <h5>${info.name}'s Squad</h5>
+              `;
+
+            const squadShow = info.squad;
+            squadShow.forEach(function (players) {
+              showPlayer += `
+              <div>            
+                  <p>${players.name}</p>
               </div>
-              <div class="card-content">
-                <span class="card-title">${data.result.post_title}</span>
-                ${snarkdown(data.result.post_content)}
-              </div>
-            </div>
-          `;
-          // Sisipkan komponen card ke dalam elemen dengan id #content
-          document.getElementById("body-content").innerHTML = articleHTML;
-        });
-      }
-    });
+              `;
+            });
+
+            // Sisipkan komponen card ke dalam elemen dengan id #content
+            document.getElementById("body-content").innerHTML = articleHTML;
+            document.getElementById("mid").innerHTML = midArtic;
+            document.getElementById("show-player").innerHTML = showPlayer;
+          });
+        }
+      });
   }
 
-  fetch(base_url + "article/" + idParam)
-    .then(status)
-    .then(json)
+  fetchAPI(ENDPOINT_CLUBS + "/" + idParam)
+    // .then(status)
+    // .then(json)
     .then(function (data) {
-      // Objek JavaScript dari response.json() masuk lewat variabel data.
       console.log(data);
-      // Menyusun komponen card artikel secara dinamis
-      var articleHTML = `
+      const info = data;
+      var articleHTML = "";
+      var midArtic = "";
+      var showPlayer = "";
+      // const matchresult = ENDPOINT_CLUBS + idParam + "/" + "matches";
+
+      // fetchAPI(matchresult).then(function (resultmat) {
+      //   console.log(resultmat.count);
+      // });
+      const clubLogo = info.crestUrl.replace(/^http:\/\//i, "https://");
+      articleHTML += `
           <div class="card">
             <div class="card-image waves-effect waves-block waves-light">
-              <img src="${data.result.cover}" />
+              <img src="${clubLogo}" />
             </div>
             <div class="card-content">
-              <span class="card-title">${data.result.post_title}</span>
-              ${snarkdown(data.result.post_content)}
+              <span class="card-title">${info.name}</span>
+              <p>${info.address}</p>
+              <p>${info.phone}</p>
+              <p>${info.website}</p>
+              
             </div>
           </div>
         `;
+      midArtic += `
+        <h5>${info.name}'s Squad</h5>
+      `;
+
+      const squadShow = info.squad;
+      squadShow.forEach(function (players) {
+        showPlayer += `
+        <div>
+            
+              <p>${players.name}</p>
+              
+            
+        </div>
+        `;
+      });
+
       // Sisipkan komponen card ke dalam elemen dengan id #content
       document.getElementById("body-content").innerHTML = articleHTML;
+      document.getElementById("mid").innerHTML = midArtic;
+      document.getElementById("show-player").innerHTML = showPlayer;
     });
 }
 
