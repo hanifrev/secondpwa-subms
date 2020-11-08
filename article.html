@@ -38,7 +38,6 @@
       <a
         class="waves-effect waves-light btn-floating btn-large red"
         id="remove"
-        style="display: none"
       >
         <i class="large material-icons">remove_circle</i>
       </a>
@@ -56,10 +55,20 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         // getArticleById();
-        manok();
-        var item = getArticleById();
+        // manok();
+        var urlParams = new URLSearchParams(window.location.search);
+        var isFromSaved = urlParams.get("saved");
+
         var save = document.getElementById("save");
         var remove = document.getElementById("remove");
+
+        if (isFromSaved) {
+          save.style.display = "none";
+          displaySavedById();
+        } else {
+          remove.style.display = "none";
+          var item = getArticleById();
+        }
 
         save.onclick = function () {
           console.log("Tombol FAB di klik.");
@@ -72,6 +81,12 @@
             remove.style.display = "inline-block";
           });
         }
+
+        remove.onclick = function () {
+          console.log("remove test");
+          var idParam = urlParams.get("id");
+          deleteTeam(Number(idParam));
+        };
       });
     </script>
   </body>

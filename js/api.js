@@ -254,7 +254,7 @@ function getArticleById() {
       // .then(status)
       // .then(json)
       .then(function (data) {
-        // console.log(data);
+        console.log(data);
         const info = data;
         var articleHTML = "";
         var midArtic = "";
@@ -337,11 +337,72 @@ function displaySaved() {
     var savedHTML = "";
     data.forEach(function (showSave) {
       savedHTML += `
-    <div class="card">
-      <p>${showSave.name}</p>
-    </div>
+      <div class="col s12 m7">
+                
+                <div class="card horizontal">
+                  <div class="card-image">
+                    <img src="${showSave.crestUrl}">
+                  </div>
+                  <div class="card-stacked">
+                    <div class="card-content">
+                    <span class="card-title"><p>${showSave.name}</p></span>
+                      <p>${showSave.venue}</p>
+                      <P><a href=${showSave.website} target="_blank">${showSave.website}</a></p>
+                    </div>
+                    <div class="card-action">
+                      <a href="./article.html?id=${showSave.id}&saved=true">MORE INFO</a>
+                    </div>
+                  </div>
+                </div>
+      </div>
        `;
     });
     document.getElementById("savedTeams").innerHTML = savedHTML;
+  });
+}
+
+function displaySavedById() {
+  var urlParams = new URLSearchParams(window.location.search);
+  var idParam = urlParams.get("id");
+
+  console.log(idParam);
+
+  getAllSavedById(Number(idParam)).then((data) => {
+    const info = data;
+    var articleHTML = "";
+    var midArtic = "";
+    var showPlayer = "";
+
+    const clubLogo = info.crestUrl.replace(/^http:\/\//i, "https://");
+    articleHTML += `
+     <div class="card">
+      <div class="card-image waves-effect waves-block waves-light">
+            <img src="${clubLogo}" />
+         </div>
+        <div class="card-content">
+             <span class="card-title">${info.name}</span>
+            <p>${info.address}</p>
+            <p>${info.phone}</p>
+             <p>${info.website}</p>
+                    
+           </div>
+         </div>
+          `;
+    midArtic += `
+          <h5>${info.name}'s Squad</h5>
+           `;
+
+    const squadShow = info.squad;
+    squadShow.forEach(function (players) {
+      showPlayer += `
+              <div>            
+                  <p>${players.name}</p>
+              </div>
+              `;
+    });
+    document.getElementById("body-content").innerHTML = articleHTML;
+    document.getElementById("mid").innerHTML = midArtic;
+    document.getElementById("show-player").innerHTML = showPlayer;
+    // resolve(data); dont put resolve here or u will get an error (serviceworken broken)
   });
 }

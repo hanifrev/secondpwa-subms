@@ -1,4 +1,4 @@
-const CACHE_NAME = "football-v8";
+const CACHE_NAME = "football-v9";
 const urlsToCache = [
   "/nav.html",
   "/index.html",
@@ -8,6 +8,7 @@ const urlsToCache = [
   "/pages/Favorite_Teams.html",
   "/css/materialize.min.css",
   "/css/style.css",
+  "/css/article.css",
   "/js/materialize.min.js",
   "/js/nav.js",
   "/js/api.js",

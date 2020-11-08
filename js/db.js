@@ -53,13 +53,13 @@ function getAllSaved() {
   });
 }
 
-function getAllSavedById(id) {
+function getAllSavedById(idParam) {
   return new Promise((resolve, reject) => {
     dbPromised
       .then((db) => {
         var tx = db.transaction("favTeam", "readonly");
         var store = tx.objectStore("favTeam");
-        return store.get(id);
+        return store.get(idParam);
       })
       .then((data) => {
         resolve(data);
@@ -67,17 +67,14 @@ function getAllSavedById(id) {
   });
 }
 
-// function displaySaved() {
-//   getAll.then(function (favTeam) {
-//     console.log(favTeam);
-//     var savedHTML = "";
-//     favTeam.forEach(function (showSave) {
-//       savedHTML = `
-//         <div class="card">
-//           <p>${showSave}</p>
-//         </div>
-//       `;
-//     });
-//     document.getElementById("savedTeams").innerHTML = savedHTML;
-//   });
-// }
+function deleteTeam(id) {
+  dbPromised
+    .then((db) => {
+      var tx = db.transaction("favTeam", "readwrite");
+      tx.objectStore("favTeam").delete(id);
+      return tx.complete;
+    })
+    .then(() => {
+      console.log("Team deleted");
+    });
+}
