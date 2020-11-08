@@ -192,27 +192,28 @@ function clubInfo() {
 }
 
 function getArticleById() {
-  // Ambil nilai query parameter (?id=)
-  var urlParams = new URLSearchParams(window.location.search);
-  var idParam = urlParams.get("id");
+  return new Promise(function (resolve, reject) {
+    // Ambil nilai query parameter (?id=)
+    var urlParams = new URLSearchParams(window.location.search);
+    var idParam = urlParams.get("id");
 
-  if ("caches" in window) {
-    caches
-      .match(ENDPOINT_TEAMS + "article/" + idParam)
-      .then(function (response) {
-        if (response) {
-          response.json().then(function (data) {
-            const info = data;
-            var articleHTML = "";
-            var midArtic = "";
-            var showPlayer = "";
-            // const matchresult = ENDPOINT_CLUBS + idParam + "/" + "matches";
+    if ("caches" in window) {
+      caches
+        .match(ENDPOINT_TEAMS + "article/" + idParam)
+        .then(function (response) {
+          if (response) {
+            response.json().then(function (data) {
+              const info = data;
+              var articleHTML = "";
+              var midArtic = "";
+              var showPlayer = "";
+              // const matchresult = ENDPOINT_CLUBS + idParam + "/" + "matches";
 
-            // fetchAPI(matchresult).then(function (resultmat) {
-            //   console.log(resultmat.count);
-            // });
-            const clubLogo = info.crestUrl.replace(/^http:\/\//i, "https://");
-            articleHTML += `
+              // fetchAPI(matchresult).then(function (resultmat) {
+              //   console.log(resultmat.count);
+              // });
+              const clubLogo = info.crestUrl.replace(/^http:\/\//i, "https://");
+              articleHTML += `
                 <div class="card">
                   <div class="card-image waves-effect waves-block waves-light">
                     <img src="${clubLogo}" />
@@ -226,44 +227,45 @@ function getArticleById() {
                   </div>
                 </div>
               `;
-            midArtic += `
+              midArtic += `
                 <h5>${info.name}'s Squad</h5>
               `;
 
-            const squadShow = info.squad;
-            squadShow.forEach(function (players) {
-              showPlayer += `
+              const squadShow = info.squad;
+              squadShow.forEach(function (players) {
+                showPlayer += `
               <div>            
                   <p>${players.name}</p>
               </div>
               `;
+              });
+
+              // Sisipkan komponen card ke dalam elemen dengan id #content
+              document.getElementById("body-content").innerHTML = articleHTML;
+              document.getElementById("mid").innerHTML = midArtic;
+              document.getElementById("show-player").innerHTML = showPlayer;
+              resolve(data);
             });
+          }
+        });
+    }
 
-            // Sisipkan komponen card ke dalam elemen dengan id #content
-            document.getElementById("body-content").innerHTML = articleHTML;
-            document.getElementById("mid").innerHTML = midArtic;
-            document.getElementById("show-player").innerHTML = showPlayer;
-          });
-        }
-      });
-  }
+    fetchAPI(ENDPOINT_CLUBS + "/" + idParam)
+      // .then(status)
+      // .then(json)
+      .then(function (data) {
+        // console.log(data);
+        const info = data;
+        var articleHTML = "";
+        var midArtic = "";
+        var showPlayer = "";
+        // const matchresult = ENDPOINT_CLUBS + idParam + "/" + "matches";
 
-  fetchAPI(ENDPOINT_CLUBS + "/" + idParam)
-    // .then(status)
-    // .then(json)
-    .then(function (data) {
-      console.log(data);
-      const info = data;
-      var articleHTML = "";
-      var midArtic = "";
-      var showPlayer = "";
-      // const matchresult = ENDPOINT_CLUBS + idParam + "/" + "matches";
-
-      // fetchAPI(matchresult).then(function (resultmat) {
-      //   console.log(resultmat.count);
-      // });
-      const clubLogo = info.crestUrl.replace(/^http:\/\//i, "https://");
-      articleHTML += `
+        // fetchAPI(matchresult).then(function (resultmat) {
+        //   console.log(resultmat.count);
+        // });
+        const clubLogo = info.crestUrl.replace(/^http:\/\//i, "https://");
+        articleHTML += `
           <div class="card">
             <div class="card-image waves-effect waves-block waves-light">
               <img src="${clubLogo}" />
@@ -277,13 +279,13 @@ function getArticleById() {
             </div>
           </div>
         `;
-      midArtic += `
+        midArtic += `
         <h5>${info.name}'s Squad</h5>
       `;
 
-      const squadShow = info.squad;
-      squadShow.forEach(function (players) {
-        showPlayer += `
+        const squadShow = info.squad;
+        squadShow.forEach(function (players) {
+          showPlayer += `
         <div>
             
               <p>${players.name}</p>
@@ -291,37 +293,55 @@ function getArticleById() {
             
         </div>
         `;
-      });
+        });
 
-      // Sisipkan komponen card ke dalam elemen dengan id #content
-      document.getElementById("body-content").innerHTML = articleHTML;
-      document.getElementById("mid").innerHTML = midArtic;
-      document.getElementById("show-player").innerHTML = showPlayer;
-    });
+        // Sisipkan komponen card ke dalam elemen dengan id #content
+        document.getElementById("body-content").innerHTML = articleHTML;
+        document.getElementById("mid").innerHTML = midArtic;
+        document.getElementById("show-player").innerHTML = showPlayer;
+        resolve(data);
+      });
+  });
 }
 
-function getSavedArticles() {
-  getAll().then(function (articles) {
-    console.log(articles);
-    // Menyusun komponen card artikel secara dinamis
-    var articlesHTML = "";
-    articles.forEach(function (article) {
-      var description = article.post_content.substring(0, 100);
-      articlesHTML += `
-                  <div class="card">
-                    <a href="./article.html?id=${article.ID}">
-                      <div class="card-image waves-effect waves-block waves-light">
-                        <img src="${article.cover}" />
-                      </div>
-                    </a>
-                    <div class="card-content">
-                      <span class="card-title truncate">${article.post_title}</span>
-                      <p>${description}</p>
-                    </div>
-                  </div>
-                `;
+// function getSavedArticles() {
+//   getAll().then(function (articles) {
+//     console.log(articles);
+//     // Menyusun komponen card artikel secara dinamis
+//     var articlesHTML = "";
+//     articles.forEach(function (article) {
+//       var description = article.post_content.substring(0, 100);
+//       articlesHTML += `
+//                   <div class="card">
+//                     <a href="./article.html?id=${article.ID}">
+//                       <div class="card-image waves-effect waves-block waves-light">
+//                         <img src="${article.cover}" />
+//                       </div>
+//                     </a>
+//                     <div class="card-content">
+//                       <span class="card-title truncate">${article.post_title}</span>
+//                       <p>${description}</p>
+//                     </div>
+//                   </div>
+//                 `;
+//     });
+//     // Sisipkan komponen card ke dalam elemen dengan id #body-content
+//     document.getElementById("body-content").innerHTML = articlesHTML;
+//   });
+// }
+
+function displaySaved() {
+  // manok();
+  getAllSaved().then(function (data) {
+    console.log(data);
+    var savedHTML = "";
+    data.forEach(function (showSave) {
+      savedHTML += `
+    <div class="card">
+      <p>${showSave.name}</p>
+    </div>
+       `;
     });
-    // Sisipkan komponen card ke dalam elemen dengan id #body-content
-    document.getElementById("body-content").innerHTML = articlesHTML;
+    document.getElementById("savedTeams").innerHTML = savedHTML;
   });
 }

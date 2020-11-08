@@ -35,6 +35,13 @@
       <a class="btn-floating btn-large red" id="save">
         <i class="large material-icons">save</i>
       </a>
+      <a
+        class="waves-effect waves-light btn-floating btn-large red"
+        id="remove"
+        style="display: none"
+      >
+        <i class="large material-icons">remove_circle</i>
+      </a>
     </div>
     <script
       type="text/javascript"
@@ -43,19 +50,28 @@
     <script src="js/materialize.min.js"></script>
     <script src="js/api.js"></script>
     <script src="js/idb.js"></script>
+    <!-- <script src="node_modules/idb/lib/idb.js"></script> -->
     <script src="js/db.js"></script>
     <script src="/sw.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        getArticleById();
+        // getArticleById();
+        manok();
         var item = getArticleById();
         var save = document.getElementById("save");
+        var remove = document.getElementById("remove");
+
         save.onclick = function () {
           console.log("Tombol FAB di klik.");
-          item.then(function (article) {
-            saveForLater(article);
+          item.then(function (team) {
+            saveFavTeam(team);
           });
         };
+        if (save.addEventListener) {
+          save.addEventListener("click", () => {
+            remove.style.display = "inline-block";
+          });
+        }
       });
     </script>
   </body>

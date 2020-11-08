@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Load page content
 var page = window.location.hash.substr(1);
-if (page == "") page = "Home";
+if (page === "") page = "Home";
 loadPage(page);
 
 function loadPage(page) {
@@ -50,12 +50,11 @@ function loadPage(page) {
         if (page === "Home") {
           clubInfo();
           console.log("test from navjs");
-        }
-        if (page === "Standing") {
+        } else if (page === "Standing") {
           showStanding();
-        }
-        if (page === "Favorite_Teams") {
-          console.log("test from navjs");
+        } else if (page === "Favorite_Teams") {
+          displaySaved();
+          console.log("test");
         }
 
         content.innerHTML = xhttp.responseText;
