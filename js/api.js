@@ -199,7 +199,7 @@ function getArticleById() {
 
     if ("caches" in window) {
       caches
-        .match(ENDPOINT_TEAMS + "article/" + idParam)
+        .match(ENDPOINT_TEAMS + "article" + idParam)
         .then(function (response) {
           if (response) {
             response.json().then(function (data) {
@@ -250,7 +250,7 @@ function getArticleById() {
         });
     }
 
-    fetchAPI(ENDPOINT_CLUBS + "/" + idParam)
+    fetchAPI(ENDPOINT_CLUBS + idParam)
       // .then(status)
       // .then(json)
       .then(function (data) {
@@ -334,10 +334,11 @@ function displaySaved() {
   // manok();
   getAllSaved().then(function (data) {
     console.log(data);
+    const favTitle = "";
     var savedHTML = "";
     data.forEach(function (showSave) {
       savedHTML += `
-      <div class="col s12 m7">
+      <div class="col s12">
                 
                 <div class="card horizontal">
                   <div class="card-image">

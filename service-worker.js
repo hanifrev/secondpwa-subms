@@ -1,4 +1,4 @@
-const CACHE_NAME = "football-v9";
+const CACHE_NAME = "football-v12";
 const urlsToCache = [
   "/nav.html",
   "/index.html",
@@ -15,13 +15,16 @@ const urlsToCache = [
   "/js/db.js",
   "/js/idb.js",
   "/js/script.js",
+  "/js/notif.js",
   "/node_modules/idb/lib/idb.js",
   "/sw.js",
+  "/push.js",
   "/asset/logo/icon225.png",
   "/asset/logo/icon256.png",
   "/asset/logo/icon512.png",
   "/asset/img",
   "/manifest.json",
+  "/favicon.ico",
   "/service-worker.js",
 ];
 

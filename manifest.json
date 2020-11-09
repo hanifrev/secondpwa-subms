@@ -2,6 +2,7 @@
   "name": "EFL Championship Portal",
   "short_name": "EFL Championship",
   "description": "EFL Championship Information Website",
+  "gcm_sender_id": "3507244453",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#00897B",

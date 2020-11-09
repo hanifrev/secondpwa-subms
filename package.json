@@ -4,7 +4,8 @@
   "description": "",
   "main": "service-worker.js",
   "dependencies": {
-    "idb": "^2.1.3"
+    "idb": "^2.1.3",
+    "web-push": "^3.4.4"
   },
   "devDependencies": {},
   "scripts": {

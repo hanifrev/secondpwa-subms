@@ -23,12 +23,12 @@ function saveFavTeam(team) {
       return tx.complete;
     })
     .then(() => {
-      console.log("Artikel berhasil di simpan.");
+      alert("Saved on Favorite Team");
       // alert(`Saved on Favorite Team,
       // to remove click remove button`);
     })
     .catch(() => {
-      console.log("This teams already saved");
+      alert("This teams already saved");
     });
 }
 
@@ -75,6 +75,6 @@ function deleteTeam(id) {
       return tx.complete;
     })
     .then(() => {
-      console.log("Team deleted");
+      alert("Team deleted");
     });
 }
