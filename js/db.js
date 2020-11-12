@@ -1,9 +1,3 @@
-// var dbPromise = idb.open("mydatabase", 1, function (upgradeDb) {
-//   if (!upgradeDb.objectStoreNames.contains("events")) {
-//     upgradeDb.createObjectStore("events");
-//   }
-// });
-
 var dbPromised = idb.open("efl-portal", 2, (upgradedDb) => {
   var teamSaved = upgradedDb.createObjectStore("favTeam", {
     keyPath: "id",
@@ -19,21 +13,15 @@ function saveFavTeam(team) {
       var tx = db.transaction("favTeam", "readwrite");
       var store = tx.objectStore("favTeam");
       console.log(team);
-      store.add(team);
+      store.put(team);
       return tx.complete;
     })
     .then(() => {
-      alert("Saved on Favorite Team");
-      // alert(`Saved on Favorite Team,
-      // to remove click remove button`);
+      M.toast({ html: "Saved on Favorite Team" });
     })
     .catch(() => {
-      alert("This teams already saved");
+      M.toast({ html: "This teams already saved" });
     });
-}
-
-function manok() {
-  console.log("manok");
 }
 
 function getAllSaved() {
@@ -75,6 +63,6 @@ function deleteTeam(id) {
       return tx.complete;
     })
     .then(() => {
-      alert("Team deleted");
+      M.toast({ html: "Team deleted" });
     });
 }
